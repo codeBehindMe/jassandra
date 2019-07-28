@@ -1,4 +1,4 @@
-package com.daedalus.jassandra.streaming;
+package com.daedalus.jassandra.ksp.streaming;
 
 import krpc.client.RPCException;
 
