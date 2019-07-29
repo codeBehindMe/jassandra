@@ -1,8 +1,11 @@
 package com.daedalus.jassandra;
 
+import com.daedalus.jassandra.telemetry.metrics.IMetric;
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter.ReferenceFrame;
 import krpc.client.services.SpaceCenter.Vessel;
+
+import java.util.ArrayList;
 
 /**
  * Manages the data streams from the vehicle.
@@ -17,33 +20,37 @@ import krpc.client.services.SpaceCenter.Vessel;
  */
 public class ActiveVehicleDataStreamManager {
 
-    private ConnectionManager connectionmanager;
+
+    private VehicleManager vehicleManager;
     private Vessel activeVessel;
     private ReferenceFrame referenceFrame;
+    private ArrayList<IMetric> metricList = new ArrayList<IMetric>();
 
-    public ActiveVehicleDataStreamManager(ConnectionManager c) {
-        this.connectionmanager = c;
-    }
-
-    /**
-     * Get's the sessions currently active vessel.
-     */
-    private void setActiveVessel() {
-        this.activeVessel = this.connectionmanager.getActiveVessel();
-    }
-
-
-    /**
-     * Set's the reference frame for the currently active vessel.
-     */
-    private void setReferenceFrame() throws RPCException {
+    public ActiveVehicleDataStreamManager(VehicleManager vehicleManager) throws RPCException {
+        this.vehicleManager = vehicleManager;
+        this.activeVessel = vehicleManager.getActiveVessel();
         this.referenceFrame = this.activeVessel.getOrbit().getBody().getReferenceFrame();
     }
 
-    /**
-     * @return Returns the surface altitude.
-     */
-    public Double getSurfaceAltitude() throws RPCException {
+    private void resetDataStream() throws RPCException {
+        this.activeVessel = this.vehicleManager.getActiveVessel();
+        this.referenceFrame = this.activeVessel.getOrbit().getBody().getReferenceFrame();
+    }
+
+    public void addMetricToDataStream(IMetric metric) {
+        this.metricList.add(metric);
+    }
+
+    public void showMetrics() throws RPCException {
+        this.resetDataStream();
+        for (int i = 0; i < this.metricList.size(); i++) {
+            System.out.println(this.metricList.get(i).get(this.activeVessel, this.referenceFrame));
+        }
+    }
+
+    public double getVehicleSurfaceAltitude() throws RPCException {
+        this.resetDataStream();
         return this.activeVessel.flight(this.referenceFrame).getSurfaceAltitude();
     }
+
 }

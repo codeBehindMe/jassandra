@@ -18,21 +18,39 @@ public class VehicleManager {
     public VehicleManager(ConnectionManager c) throws RPCException {
         this.spaceCenter = c.getSpaceCenter();
         this.availableVessels = spaceCenter.getVessels();
-        this.activeVessel = this.spaceCenter.getActiveVessel();
     }
 
-    public void resetActiveVessel() throws RPCException {
-        this.activeVessel = this.spaceCenter.getActiveVessel();
+    private void getAvailableVessels() throws RPCException {
+        this.availableVessels = spaceCenter.getVessels();
     }
 
-    public Vessel getActiveVessel() {
-        return this.activeVessel;
+    public void resetActiveVessel() throws RPCException, NullPointerException {
+        this.getAvailableVessels();
+
+        if (this.availableVessels.size() == 1) {
+            this.activeVessel = this.spaceCenter.getActiveVessel();
+        } else {
+            for (int i = 0; i < this.availableVessels.size(); i++) {
+                String vesselName = this.availableVessels.get(i).getName();
+                // FIXME: String literal in code.
+                if (vesselName.contains("Probe")) {
+                    this.activeVessel = this.availableVessels.get(i);
+                    return;
+                }
+            }
+            throw new NullPointerException("Could not find a vessel");
+        }
     }
 
-    /**
-     * @return The final stage of the vessels available.
-     */
-    public Vessel getFinalStageVessel() {
-        return this.availableVessels.get(availableVessels.size() - 1);
+    public void showActiveVessels() throws RPCException {
+        this.getAvailableVessels();
+        for (int i = 0; i < this.availableVessels.size(); i++) {
+            System.out.println(this.availableVessels.get(i).getName());
+        }
+    }
+
+    public Vessel getActiveVessel() throws RPCException {
+        this.resetActiveVessel();
+        return activeVessel;
     }
 }

@@ -6,7 +6,6 @@ import krpc.client.services.SpaceCenter;
 import krpc.client.services.SpaceCenter.Vessel;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * This class handles the connections to the krpc server.
@@ -22,11 +21,6 @@ public class ConnectionManager {
         this.kspConnection = Connection.newInstance();
         this.spaceCenter = SpaceCenter.newInstance(this.kspConnection);
         this.activeVessel = this.spaceCenter.getActiveVessel();
-
-        List<Vessel> allVessels = spaceCenter.getVessels();
-        for (int i = 0; i < allVessels.size(); i++) {
-            System.out.println(allVessels.get(i).getName());
-        }
     }
 
     public static ConnectionManager getInstance() throws IOException, RPCException {
@@ -36,15 +30,16 @@ public class ConnectionManager {
         return connectionManager;
     }
 
-    public Vessel getActiveVessel() {
-        return activeVessel;
-    }
 
-    public SpaceCenter getSpaceCenter(){
+    public SpaceCenter getSpaceCenter() {
         return this.spaceCenter;
     }
 
     public Connection getConnection() {
         return kspConnection;
+    }
+
+    public Vessel getActiveVessel() {
+        return activeVessel;
     }
 }
