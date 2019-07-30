@@ -23,7 +23,6 @@ public class Jassandra {
 
         while (true) {
             vdm.showMetrics();
-//            System.out.println(vdm.getVehicleSurfaceAltitude());
             TimeUnit.SECONDS.sleep(1);
         }
     }
