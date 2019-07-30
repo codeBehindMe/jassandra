@@ -1,5 +1,9 @@
 package com.daedalus.jassandra;
 
+import com.daedalus.jassandra.system.ActiveVehicleDataStreamManager;
+import com.daedalus.jassandra.system.ConnectionManager;
+import com.daedalus.jassandra.system.VehicleManager;
+import com.daedalus.jassandra.telemetry.metrics.FlightVelocity;
 import com.daedalus.jassandra.telemetry.metrics.SurfaceAltitude;
 import krpc.client.RPCException;
 import krpc.client.StreamException;
@@ -15,6 +19,7 @@ public class Jassandra {
         ActiveVehicleDataStreamManager vdm = new ActiveVehicleDataStreamManager(vehicleManager);
 
         vdm.addMetricToDataStream(new SurfaceAltitude());
+        vdm.addMetricToDataStream(new FlightVelocity());
 
         while (true) {
             vdm.showMetrics();

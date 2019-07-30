@@ -1,4 +1,4 @@
-package com.daedalus.jassandra;
+package com.daedalus.jassandra.system;
 
 import com.daedalus.jassandra.telemetry.metrics.IMetric;
 import krpc.client.RPCException;
@@ -47,10 +47,4 @@ public class ActiveVehicleDataStreamManager {
             System.out.println(this.metricList.get(i).get(this.activeVessel, this.referenceFrame));
         }
     }
-
-    public double getVehicleSurfaceAltitude() throws RPCException {
-        this.resetDataStream();
-        return this.activeVessel.flight(this.referenceFrame).getSurfaceAltitude();
-    }
-
 }

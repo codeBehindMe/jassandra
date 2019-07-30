@@ -1,4 +1,4 @@
-package com.daedalus.jassandra;
+package com.daedalus.jassandra.system;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
@@ -8,6 +8,17 @@ import java.util.List;
 
 /**
  * Handles the active vehicles inside the session.
+ *
+ * It turns out, this is a surprisingly hard thing to do. Especially when a launch vehicle  is a
+ * multi-stage vehicle. Initially, the active vehicle will be a single object (With the name of the
+ * vehicle as the active vehicle) however, when stage separation occurs, that object is "lost" and
+ * multiple new objects are created.
+ *
+ * The exact model how this happens isn't fully described yet, so I've made a very temporary fix to
+ * find the active vessel before doing anything. Otherwise it'll cause a null pointer reference.
+ *
+ * I also found usually the upper stage (the one we're usually interested) has the keyword "Probe"
+ * in the name string. So I hacked that into identifying the active vehicle.
  */
 public class VehicleManager {
 

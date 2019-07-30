@@ -1,4 +1,4 @@
-package com.daedalus.jassandra;
+package com.daedalus.jassandra.system;
 
 import krpc.client.Connection;
 import krpc.client.RPCException;
