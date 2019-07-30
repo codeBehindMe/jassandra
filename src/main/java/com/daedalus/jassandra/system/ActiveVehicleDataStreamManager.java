@@ -1,6 +1,8 @@
 package com.daedalus.jassandra.system;
 
+import com.daedalus.jassandra.telemetry.metrics.IHashable;
 import com.daedalus.jassandra.telemetry.metrics.IMetric;
+import com.google.gson.Gson;
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter.ReferenceFrame;
 import krpc.client.services.SpaceCenter.Vessel;
@@ -45,6 +47,16 @@ public class ActiveVehicleDataStreamManager {
         this.resetDataStream();
         for (int i = 0; i < this.metricList.size(); i++) {
             System.out.println(this.metricList.get(i).get(this.activeVessel, this.referenceFrame));
+        }
+    }
+
+    public void showMetricsAsJson() throws RPCException {
+
+        Gson gson = new Gson();
+        this.resetDataStream();
+        for (int i = 0; i < this.metricList.size(); i++) {
+            IHashable obj = (IHashable) this.metricList.get(i);
+            System.out.println(gson.toJson(obj.getHashMap(this.activeVessel, this.referenceFrame)).toString());
         }
     }
 }

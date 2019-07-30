@@ -1,5 +1,6 @@
-package com.daedalus.jassandra.telemetry.metrics;
+package com.daedalus.jassandra.telemetry.metrics.flight;
 
+import com.daedalus.jassandra.telemetry.metrics.IMetric;
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
 
