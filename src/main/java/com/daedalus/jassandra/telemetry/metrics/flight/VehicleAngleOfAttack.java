@@ -15,7 +15,7 @@ public class VehicleAngleOfAttack implements IMetric, IHashable {
 
     @Override
     public HashMap getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
-        HashMap<String, Float> vehicleAngleOfAttack = new HashMap<>();
+        HashMap<String, Float> vehicleAngleOfAttack = new HashMap<String, Float>();
         vehicleAngleOfAttack.put(this.getClass().getName(), vessel.flight(referenceFrame).getAngleOfAttack());
         return vehicleAngleOfAttack;
     }

@@ -16,7 +16,7 @@ public class SurfaceAltitude implements IMetric, IHashable {
 
     @Override
     public HashMap getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
-        HashMap<String, Double> flightSurfaceAltitude = new HashMap<>();
+        HashMap<String, Double> flightSurfaceAltitude = new HashMap<String, Double>();
         flightSurfaceAltitude.put(this.getClass().getName(),
                 vessel.flight(referenceFrame).getSurfaceAltitude());
 
