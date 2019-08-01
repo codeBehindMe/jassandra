@@ -9,14 +9,14 @@ import java.util.HashMap;
 
 public class VehicleAngleOfAttack implements IMetric, IHashable {
     @Override
-    public Float get(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
+    public Float valueNow(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
         return vessel.flight(referenceFrame).getAngleOfAttack();
     }
 
     @Override
     public HashMap getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
         HashMap<String, Float> vehicleAngleOfAttack = new HashMap<String, Float>();
-        vehicleAngleOfAttack.put(this.getClass().getName(), vessel.flight(referenceFrame).getAngleOfAttack());
+        vehicleAngleOfAttack.put(this.getClass().getName(), this.valueNow(vessel,referenceFrame));
         return vehicleAngleOfAttack;
     }
 }

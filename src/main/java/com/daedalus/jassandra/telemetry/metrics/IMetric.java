@@ -7,5 +7,5 @@ import krpc.client.services.SpaceCenter.Vessel;
 import java.util.HashMap;
 
 public interface IMetric<T> {
-    public T get(Vessel vessel, ReferenceFrame referenceFrame) throws RPCException;
+    public T valueNow(Vessel vessel, ReferenceFrame referenceFrame) throws RPCException;
 }

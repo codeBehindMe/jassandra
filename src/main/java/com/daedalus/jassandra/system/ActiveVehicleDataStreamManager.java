@@ -46,7 +46,7 @@ public class ActiveVehicleDataStreamManager {
     public void showMetrics() throws RPCException {
         this.resetDataStream();
         for (int i = 0; i < this.metricList.size(); i++) {
-            System.out.println(this.metricList.get(i).get(this.activeVessel, this.referenceFrame));
+            System.out.println(this.metricList.get(i).valueNow(this.activeVessel, this.referenceFrame));
         }
     }
 

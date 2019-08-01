@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class VerticalSpeed implements IMetric, IHashable {
     @Override
-    public Double get(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame)
+    public Double valueNow(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame)
             throws RPCException {
         return vessel.flight(referenceFrame).getVerticalSpeed();
     }
@@ -17,7 +17,7 @@ public class VerticalSpeed implements IMetric, IHashable {
     @Override
     public HashMap getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
         HashMap<String, Double> verticalSpeed = new HashMap<String, Double>();
-        verticalSpeed.put(this.getClass().getName(), vessel.flight(referenceFrame).getVerticalSpeed());
+        verticalSpeed.put(this.getClass().getName(), this.valueNow(vessel,referenceFrame));
         return verticalSpeed;
     }
 }

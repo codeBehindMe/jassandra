@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class FlightVelocity implements IMetric, IHashable {
     @Override
-    public Triplet<Double, Double, Double> get(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
+    public Triplet<Double, Double, Double> valueNow(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
         return vessel.flight(referenceFrame).getVelocity();
     }
 
@@ -23,7 +23,7 @@ public class FlightVelocity implements IMetric, IHashable {
         String FlightVelocityY = metricName + CoordinateSystem.Y;
         String FlightVelocityZ = metricName + CoordinateSystem.Z;
 
-        Triplet<Double, Double, Double> flightVelocities = this.get(vessel, referenceFrame);
+        Triplet<Double, Double, Double> flightVelocities = this.valueNow(vessel, referenceFrame);
         HashMap<String, Double> resultMap = new HashMap<String, Double>();
 
         resultMap.put(FlightVelocityX, flightVelocities.getValue0());
