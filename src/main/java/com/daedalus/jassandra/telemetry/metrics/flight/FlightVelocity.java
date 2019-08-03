@@ -16,19 +16,17 @@ public class FlightVelocity implements IMetric, IHashable {
     }
 
     @Override
-    public HashMap<String, Double> getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
-        String metricName = this.getClass().getName();
-
-        String FlightVelocityX = metricName + CoordinateSystem.X;
-        String FlightVelocityY = metricName + CoordinateSystem.Y;
-        String FlightVelocityZ = metricName + CoordinateSystem.Z;
+    public HashMap<String, HashMap<String, Double>> getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
 
         Triplet<Double, Double, Double> flightVelocities = this.valueNow(vessel, referenceFrame);
-        HashMap<String, Double> resultMap = new HashMap<String, Double>();
+        HashMap<String, HashMap<String, Double>> resultMap = new HashMap<String, HashMap<String, Double>>();
+        HashMap<String, Double> valueMap = new HashMap<String, Double>();
 
-        resultMap.put(FlightVelocityX, flightVelocities.getValue0());
-        resultMap.put(FlightVelocityY, flightVelocities.getValue1());
-        resultMap.put(FlightVelocityZ, flightVelocities.getValue2());
+        valueMap.put(CoordinateSystem.X.toString(), flightVelocities.getValue0());
+        valueMap.put(CoordinateSystem.Y.toString(), flightVelocities.getValue1());
+        valueMap.put(CoordinateSystem.Z.toString(), flightVelocities.getValue2());
+
+        resultMap.put(this.getClass().getName(), valueMap);
 
         return resultMap;
     }
