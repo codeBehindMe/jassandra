@@ -27,11 +27,21 @@ public class ActiveVehicleDataStreamManager {
     private Vessel activeVessel;
     private ReferenceFrame referenceFrame;
     private ArrayList<IMetric> metricList = new ArrayList<IMetric>();
+    private final String vesselName;
+    private final MetricsPackageManager metricsPackageManager;
 
-    public ActiveVehicleDataStreamManager(VehicleManager vehicleManager) throws RPCException {
+    public ActiveVehicleDataStreamManager(VehicleManager vehicleManager, String buildName) throws RPCException {
         this.vehicleManager = vehicleManager;
         this.activeVessel = vehicleManager.getActiveVessel();
         this.referenceFrame = this.activeVessel.getOrbit().getBody().getReferenceFrame();
+
+        /*
+            We only set the name once, since initially it'll have the name that we give it and once
+            the stage separation happens, these names get appended with things like debris.
+         */
+        this.vesselName = this.activeVessel.getName();
+        metricsPackageManager = new MetricsPackageManager(this.vesselName, buildName);
+
     }
 
     private void resetDataStream() throws RPCException {
@@ -58,5 +68,15 @@ public class ActiveVehicleDataStreamManager {
             IHashable obj = (IHashable) this.metricList.get(i);
             System.out.println(gson.toJson(obj.getHashMap(this.activeVessel, this.referenceFrame)).toString());
         }
+    }
+
+    public String getSeraliasablePackage() throws RPCException {
+        this.resetDataStream();
+
+        for (int i = 0; i < this.metricList.size(); i++) {
+            IHashable hMetric = (IHashable) this.metricList.get(i);
+            this.metricsPackageManager.addMetricToPackage(hMetric.getHashMap(this.activeVessel, this.referenceFrame));
+        }
+        return this.metricsPackageManager.jsonSerialisePackage();
     }
 }

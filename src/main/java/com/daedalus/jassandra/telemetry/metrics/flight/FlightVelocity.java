@@ -16,7 +16,7 @@ public class FlightVelocity implements IMetric, IHashable {
     }
 
     @Override
-    public HashMap<String, HashMap<String, Double>> getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
+    public HashMap getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
 
         Triplet<Double, Double, Double> flightVelocities = this.valueNow(vessel, referenceFrame);
         HashMap<String, HashMap<String, Double>> resultMap = new HashMap<String, HashMap<String, Double>>();
