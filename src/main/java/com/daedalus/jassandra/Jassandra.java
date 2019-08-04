@@ -11,7 +11,7 @@ public class Jassandra {
     public static void main(String[] args) throws Exception {
 
         final String buildName = "pre-release-build";
-        final int pollRateInMilliseconds = 250;
+        final int pollRateInMilliseconds = 500;
         ConnectionManager c = ConnectionManager.getInstance();
         VehicleManager vehicleManager = new VehicleManager(c);
 

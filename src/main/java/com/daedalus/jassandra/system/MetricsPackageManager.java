@@ -34,7 +34,16 @@ public class MetricsPackageManager {
         return this.metricsPackage;
     }
 
+    /**
+     * Puts a timestamp on the package.
+     */
+    private void packageTimeStamp() {
+
+        this.metricsPackage.put("packageTime", System.currentTimeMillis());
+    }
+
     public String jsonSerialisePackage() {
+        this.packageTimeStamp();
         return this.gson.toJson(this.metricsPackage);
     }
 

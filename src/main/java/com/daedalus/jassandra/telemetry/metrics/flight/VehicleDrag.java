@@ -28,6 +28,6 @@ public class VehicleDrag implements IMetric, IHashable {
 
         resultMap.put(this.getClass().getName(), valueMap);
 
-        return valueMap;
+        return resultMap;
     }
 }
