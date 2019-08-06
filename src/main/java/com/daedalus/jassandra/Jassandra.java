@@ -1,11 +1,10 @@
 package com.daedalus.jassandra;
 
+import com.daedalus.jassandra.datastream.FileStream;
 import com.daedalus.jassandra.system.ActiveVehicleDataStreamManager;
 import com.daedalus.jassandra.system.ConnectionManager;
 import com.daedalus.jassandra.system.VehicleManager;
 import com.daedalus.jassandra.telemetry.metrics.flight.*;
-
-import java.util.concurrent.TimeUnit;
 
 public class Jassandra {
     public static void main(String[] args) throws Exception {
@@ -24,9 +23,9 @@ public class Jassandra {
         vdm.addMetricToDataStream(new VehicleDrag());
         vdm.addMetricToDataStream(new VerticalSpeed());
 
-        while (true) {
-            System.out.println(vdm.getSeraliasablePackage());
-            TimeUnit.MILLISECONDS.sleep(pollRateInMilliseconds);
-        }
+        FileStream fStream = new FileStream(vdm, pollRateInMilliseconds);
+        fStream.setEcho(true);
+        fStream.start();
+
     }
 }

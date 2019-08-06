@@ -20,15 +20,17 @@ import java.util.ArrayList;
  * vehicle objects are introduced. This then causes a null reference pointer exception to the data
  * streams that were initially pointing to the initial flight vehicle.
  */
-public class ActiveVehicleDataStreamManager {
+public class ActiveVehicleDataStreamManager implements IDataStreamManager {
 
 
+    private final String vesselName;
+    private final MetricsPackageManager metricsPackageManager;
+    private final String buildName;
+    private final String sessionID;
     private VehicleManager vehicleManager;
     private Vessel activeVessel;
     private ReferenceFrame referenceFrame;
     private ArrayList<IMetric> metricList = new ArrayList<IMetric>();
-    private final String vesselName;
-    private final MetricsPackageManager metricsPackageManager;
 
     public ActiveVehicleDataStreamManager(VehicleManager vehicleManager, String buildName) throws RPCException {
         this.vehicleManager = vehicleManager;
@@ -41,6 +43,8 @@ public class ActiveVehicleDataStreamManager {
          */
         this.vesselName = this.activeVessel.getName();
         metricsPackageManager = new MetricsPackageManager(this.vesselName, buildName);
+        this.buildName = buildName;
+        this.sessionID = metricsPackageManager.sessionID;
 
     }
 
@@ -49,10 +53,12 @@ public class ActiveVehicleDataStreamManager {
         this.referenceFrame = this.activeVessel.getOrbit().getBody().getReferenceFrame();
     }
 
+    @Override
     public void addMetricToDataStream(IMetric metric) {
         this.metricList.add(metric);
     }
 
+    @Override
     public void showMetrics() throws RPCException {
         this.resetDataStream();
         for (int i = 0; i < this.metricList.size(); i++) {
@@ -60,6 +66,7 @@ public class ActiveVehicleDataStreamManager {
         }
     }
 
+    @Override
     public void showMetricsAsJson() throws RPCException {
 
         Gson gson = new Gson();
@@ -70,7 +77,9 @@ public class ActiveVehicleDataStreamManager {
         }
     }
 
-    public String getSeraliasablePackage() throws RPCException {
+
+    @Override
+    public String getSerialisablePackage() throws RPCException {
         this.resetDataStream();
 
         for (int i = 0; i < this.metricList.size(); i++) {
@@ -78,5 +87,20 @@ public class ActiveVehicleDataStreamManager {
             this.metricsPackageManager.addMetricToPackage(hMetric.getHashMap(this.activeVessel, this.referenceFrame));
         }
         return this.metricsPackageManager.jsonSerialisePackage();
+    }
+
+    @Override
+    public String getVesselName() {
+        return this.vesselName;
+    }
+
+    @Override
+    public String getBuildName() {
+        return this.buildName;
+    }
+
+    @Override
+    public String getSessionID() {
+        return this.sessionID;
     }
 }

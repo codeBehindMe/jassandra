@@ -17,7 +17,7 @@ public class VerticalSpeed implements IMetric, IHashable {
     @Override
     public HashMap getHashMap(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame referenceFrame) throws RPCException {
         HashMap<String, Double> verticalSpeed = new HashMap<String, Double>();
-        verticalSpeed.put(this.getClass().getName(), this.valueNow(vessel,referenceFrame));
+        verticalSpeed.put(this.getClass().getName(), this.valueNow(vessel, referenceFrame));
         return verticalSpeed;
     }
 }

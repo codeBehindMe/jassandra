@@ -12,8 +12,8 @@ public class MetricsPackageManager {
     final String sessionID = UUID.randomUUID().toString().replace("-", "");
     private final String vehicleName;
     private final String buildName;
-    private HashMap metricsPackage = new HashMap();
     private final Gson gson = new Gson();
+    private HashMap metricsPackage = new HashMap();
 
     public MetricsPackageManager(String vehicleName, String buildName) {
         this.vehicleName = vehicleName;
